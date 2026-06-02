@@ -5,8 +5,8 @@ const doc = {
         title: 'electronics  Api',
         description: 'Electronics Api'
     },
-    host: 'localhost:3000',
-    schemes: ['http']
+    host: 'electronics-inventory-backend.onrender.com',
+    schemes: ['https']
 };
 
 const outputFile = './swagger.json';

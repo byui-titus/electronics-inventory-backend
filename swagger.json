@@ -5,15 +5,24 @@
     "description": "Electronics Api",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "electronics-inventory-backend.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api-docs": {
       "get": {
-        "tags": ["System"],
         "description": "",
         "responses": {
           "default": {
@@ -24,7 +33,6 @@
     },
     "/products/search": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -45,7 +53,6 @@
     },
     "/products/": {
       "post": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -86,7 +93,6 @@
         }
       },
       "get": {
-        "tags": ["Products"],
         "description": "",
         "produces": [
           "application/json"
@@ -100,7 +106,6 @@
     },
     "/products/{id}": {
       "put": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -147,7 +152,6 @@
         }
       },
       "delete": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -172,7 +176,6 @@
     },
     "/sales/sell/{id}": {
       "post": {
-        "tags": ["Sales"],
         "description": "",
         "parameters": [
           {
@@ -212,7 +215,6 @@
     },
     "/sales/today": {
       "get": {
-        "tags": ["Sales"],
         "description": "",
         "responses": {
           "200": {
@@ -226,7 +228,6 @@
     },
     "/sales/profit": {
       "get": {
-        "tags": ["Sales"],
         "description": "",
         "responses": {
           "200": {
@@ -240,7 +241,6 @@
     },
     "/sales/dashboard": {
       "get": {
-        "tags": ["Sales"],
         "description": "",
         "responses": {
           "200": {
