@@ -10,9 +10,24 @@
   "schemes": [
     "https"
   ],
+  "tags": [
+    {
+      "name": "General",
+      "description": "Base API and documentation paths"
+    },
+    {
+      "name": "Products",
+      "description": "Inventory management and product lookups"
+    },
+    {
+      "name": "Sales",
+      "description": "Sales processing, analytics, and dashboard metrics"
+    }
+  ],
   "paths": {
     "/": {
       "get": {
+        "tags": ["General"],
         "description": "",
         "responses": {
           "200": {
@@ -23,6 +38,7 @@
     },
     "/api-docs": {
       "get": {
+        "tags": ["General"],
         "description": "",
         "responses": {
           "default": {
@@ -33,6 +49,7 @@
     },
     "/products/search": {
       "get": {
+        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -53,6 +70,7 @@
     },
     "/products/": {
       "post": {
+        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -93,6 +111,7 @@
         }
       },
       "get": {
+        "tags": ["Products"],
         "description": "",
         "produces": [
           "application/json"
@@ -106,6 +125,7 @@
     },
     "/products/{id}": {
       "put": {
+        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -152,6 +172,7 @@
         }
       },
       "delete": {
+        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -176,6 +197,7 @@
     },
     "/sales/sell/{id}": {
       "post": {
+        "tags": ["Sales"],
         "description": "",
         "parameters": [
           {
@@ -215,6 +237,7 @@
     },
     "/sales/today": {
       "get": {
+        "tags": ["Sales"],
         "description": "",
         "responses": {
           "200": {
@@ -228,6 +251,7 @@
     },
     "/sales/profit": {
       "get": {
+        "tags": ["Sales"],
         "description": "",
         "responses": {
           "200": {
@@ -241,6 +265,7 @@
     },
     "/sales/dashboard": {
       "get": {
+        "tags": ["Sales"],
         "description": "",
         "responses": {
           "200": {
