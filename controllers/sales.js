@@ -70,16 +70,20 @@ const getTodaySales = async (req, res) => {
     const db = mongodb.getDatabase().db();
 
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
     const sales = await db
-      .collection('sales')
-      .find({
-        saleDate: {
-          $gte: today
-        }
-      })
-      .toArray();
+  .collection('sales')
+  .find({
+    saleDate: {
+      $gte: today,
+      $lt: tomorrow
+    }
+  })
+  .toArray();
 
     res.status(200).json(sales);
 
