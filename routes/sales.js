@@ -10,4 +10,6 @@ router.get('/profit', salesController.getProfitSummary);
 
 router.get('/dashboard', salesController.getDashboard);
 
+router.get('/', salesController.getAllSales);
+
 module.exports = router;

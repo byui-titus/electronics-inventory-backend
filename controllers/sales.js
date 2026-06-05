@@ -177,9 +177,27 @@ const getDashboard = async (req, res) => {
   }
 };
 
+const getAllSales = async (req, res) => {
+  try {
+    const db = mongodb.getDatabase().db();
+
+    const sales = await db
+      .collection('sales')
+      .find()
+      .sort({ saleDate: -1 })
+      .toArray();
+
+    res.status(200).json(sales);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   sellProduct,
   getTodaySales,
   getProfitSummary, 
-  getDashboard
+  getDashboard,
+  getAllSales
 };
