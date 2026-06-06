@@ -6,6 +6,7 @@ const sellProduct = async (req, res) => {
   try {
     const productId = new ObjectId(req.params.id);
     const quantitySold = Number(req.body.quantitySold);
+    const customerName = req.body.customerName;
 
     const db = mongodb.getDatabase().db();
 
@@ -44,6 +45,7 @@ const sellProduct = async (req, res) => {
     await db.collection('sales').insertOne({
       productId: product._id,
       productName: product.productName,
+      customerName,
       quantitySold,
       unitCost: product.buyingPrice,
       unitPrice: product.sellingPrice,
@@ -57,6 +59,7 @@ const sellProduct = async (req, res) => {
       revenue,
       profit,
       sale: {
+              customerName,
               productName: product.productName,
               quantitySold,
               unitPrice: product.sellingPrice,

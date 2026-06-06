@@ -70,6 +70,9 @@
                 "brand": {
                   "example": "any"
                 },
+                "group": {
+                  "example": "any"
+                },
                 "quantity": {
                   "example": "any"
                 },
@@ -127,6 +130,9 @@
                   "example": "any"
                 },
                 "brand": {
+                  "example": "any"
+                },
+                "group": {
                   "example": "any"
                 },
                 "quantity": {
@@ -191,6 +197,9 @@
               "type": "object",
               "properties": {
                 "quantitySold": {
+                  "example": "any"
+                },
+                "customerName": {
                   "example": "any"
                 }
               }
