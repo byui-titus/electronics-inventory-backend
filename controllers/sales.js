@@ -55,7 +55,14 @@ const sellProduct = async (req, res) => {
     res.status(200).json({
       message: 'Sale recorded successfully',
       revenue,
-      profit
+      profit,
+      sale: {
+              productName: product.productName,
+              quantitySold,
+              unitPrice: product.sellingPrice,
+              revenue,
+              saleDate: new Date()
+            }
     });
 
   } catch (error) {
