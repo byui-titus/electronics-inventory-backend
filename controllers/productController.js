@@ -7,6 +7,7 @@ const createProduct = async (req, res) => {
       productName: req.body.productName,
       category: req.body.category,
       brand: req.body.brand,
+      group: req.body.group,
       quantity: Number(req.body.quantity) || 0,
       buyingPrice: Number(req.body.buyingPrice) || 0,
       sellingPrice: Number(req.body.sellingPrice) || 0,
@@ -41,7 +42,8 @@ const searchProducts = async (req, res) => {
       $or: [
         { productName: searchRegex },
         { brand: searchRegex },
-        { category: searchRegex }
+        { category: searchRegex },
+        {group: searchRegex }
       ]
     };
 
@@ -68,6 +70,7 @@ const updateProduct = async (req, res) => {
       productName: req.body.productName,
       category: req.body.category,
       brand: req.body.brand,
+      group: req.body.group,
       quantity: Number(req.body.quantity) || 0,
       buyingPrice: Number(req.body.buyingPrice) || 0,
       sellingPrice: Number(req.body.sellingPrice) || 0,
