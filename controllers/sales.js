@@ -7,6 +7,7 @@ const sellProduct = async (req, res) => {
     const productId = new ObjectId(req.params.id);
     const quantitySold = Number(req.body.quantitySold);
     const customerName = req.body.customerName;
+    const sellingPrice = Number(req.body.sellingPrice);
 
     const db = mongodb.getDatabase().db();
 
@@ -27,10 +28,10 @@ const sellProduct = async (req, res) => {
     }
 
     const revenue =
-      product.sellingPrice * quantitySold;
+      sellingPrice * quantitySold;
 
     const profit =
-      (product.sellingPrice - product.buyingPrice) *
+      (sellingPrice - product.buyingPrice) *
       quantitySold;
 
     await db.collection('products').updateOne(
@@ -48,7 +49,7 @@ const sellProduct = async (req, res) => {
       customerName,
       quantitySold,
       unitCost: product.buyingPrice,
-      unitPrice: product.sellingPrice,
+      unitPrice: sellingPrice,
       revenue,
       profit,
       saleDate: new Date()

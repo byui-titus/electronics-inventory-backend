@@ -201,6 +201,9 @@
                 },
                 "customerName": {
                   "example": "any"
+                },
+                "sellingPrice": {
+                  "example": "any"
                 }
               }
             }
