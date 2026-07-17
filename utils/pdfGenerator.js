@@ -1,194 +1,75 @@
 const PDFDocument = require('pdfkit-table');
 
 const generateSalesPDF = (sales, filter, res) => {
-
+    // Initialize document
     const doc = new PDFDocument({
         margin: 40,
         size: 'A4'
     });
 
-    res.setHeader(
-        'Content-Type',
-        'application/pdf'
-    );
+    // Set HTTP Response headers
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=Sales_Report_${filter}.pdf`);
 
-    res.setHeader(
-        'Content-Disposition',
-        `attachment; filename=Sales_Report_${filter}.pdf`
-    );
-
+    // Stream directly to response
     doc.pipe(res);
 
-    //------------------------------------------------
-    // Title
-    //------------------------------------------------
+    // Calculate totals dynamically
+    let totalRevenue = 0;
+    let totalProfit = 0;
 
-  //------------------------------------------------
-// TABLE
-//------------------------------------------------
+    // Map sales array into table-friendly row arrays
+    const tableRows = sales.map((sale) => {
+        totalRevenue += sale.revenue;
+        totalProfit += sale.profit;
 
-let totalRevenue = 0;
-let totalProfit = 0;
+        return [
+            sale.customerName || 'Walk-in',
+            sale.productName,
+            sale.quantitySold.toString(),
+            `UGX ${sale.unitPrice.toLocaleString()}`,
+            `UGX ${sale.revenue.toLocaleString()}`,
+            `UGX ${sale.profit.toLocaleString()}`
+        ];
+    });
 
-const startX = 40;
-let y = 170;
-
-const columns = {
-    customer: 40,
-    product: 150,
-    qty: 290,
-    unit: 340,
-    revenue: 420,
-    profit: 500
-};
-
-// Header Background
-doc
-    .save()
-    .fillColor('#2563eb')
-    .rect(startX, y, 520, 25)
-    .fill()
-    .restore();
-
-// Header Text
-doc
-    .fillColor('white')
-    .fontSize(10);
-
-doc.text('Customer', columns.customer + 5, y + 7);
-doc.text('Product', columns.product + 5, y + 7);
-doc.text('Qty', columns.qty + 5, y + 7);
-doc.text('Unit Price', columns.unit + 5, y + 7);
-doc.text('Revenue', columns.revenue + 5, y + 7);
-doc.text('Profit', columns.profit + 5, y + 7);
-
-y += 25;
-
-// Draw Sales Rows
-sales.forEach((sale, index) => {
-
-    totalRevenue += sale.revenue;
-    totalProfit += sale.profit;
-
-    // Alternate row colors
-    if (index % 2 === 0) {
-        doc
-            .save()
-            .fillColor('#f5f5f5')
-            .rect(startX, y, 520, 25)
-            .fill()
-            .restore();
-    }
-
-    // Row Border
-    doc
-        .rect(startX, y, 520, 25)
-        .stroke('#cccccc');
-
-    doc
-        .fillColor('black')
-        .fontSize(9);
-
-    doc.text(
-        sale.customerName || 'Walk-in',
-        columns.customer + 5,
-        y + 7,
-        { width: 95 }
+    // Append Summary Rows to the bottom of the table
+    tableRows.push(
+        ['', '', '', '', '', ''], // Empty spacer row
+        ['Summary', '', '', '', '', ''],
+        ['Total Sales:', sales.length.toString(), '', '', '', ''],
+        ['Total Revenue:', `UGX ${totalRevenue.toLocaleString()}`, '', '', '', ''],
+        ['Total Profit:', `UGX ${totalProfit.toLocaleString()}`, '', '', '', '']
     );
 
-    doc.text(
-        sale.productName,
-        columns.product + 5,
-        y + 7,
-        { width: 130 }
-    );
+    // Define table structure and styling configuration
+    const tableJson = {
+        headers: [
+            { label: "Customer", property: "customer", width: 95 },
+            { label: "Product", property: "product", width: 130 },
+            { label: "Qty", property: "qty", width: 40 },
+            { label: "Unit Price", property: "unit", width: 85 },
+            { label: "Revenue", property: "revenue", width: 85 },
+            { label: "Profit", property: "profit", width: 85 }
+        ],
+        rows: tableRows
+    };
 
-    doc.text(
-        sale.quantitySold.toString(),
-        columns.qty + 5,
-        y + 7,
-        { width: 25, align: 'center' }
-    );
+    // Global table options for appearance 
+    const tableOptions = {
+        prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10).fillColor('white'),
+        prepareRow: (row, index) => doc.font("Helvetica").fontSize(9).fillColor('black'),
+        padding: 5,
+        columnSpacing: 5,
+        hideHeader: false,
+        minRowHeight: 20
+    };
 
-    doc.text(
-        `UGX ${sale.unitPrice.toLocaleString()}`,
-        columns.unit,
-        y + 7,
-        { width: 70, align: 'right' }
-    );
+    // Draw the structural table (auto-calculates spacing and page breaks)
+    doc.table(tableJson, tableOptions);
 
-    doc.text(
-        `UGX ${sale.revenue.toLocaleString()}`,
-        columns.revenue,
-        y + 7,
-        { width: 70, align: 'right' }
-    );
-
-    doc.text(
-        `UGX ${sale.profit.toLocaleString()}`,
-        columns.profit,
-        y + 7,
-        { width: 60, align: 'right' }
-    );
-
-    y += 25;
-
-    // New page if necessary
-    if (y > 730) {
-
-        doc.addPage();
-
-        y = 60;
-
-        // Draw Header Again
-        doc
-            .save()
-            .fillColor('#2563eb')
-            .rect(startX, y, 520, 25)
-            .fill()
-            .restore();
-
-        doc
-            .fillColor('white')
-            .fontSize(10);
-
-        doc.text('Customer', columns.customer + 5, y + 7);
-        doc.text('Product', columns.product + 5, y + 7);
-        doc.text('Qty', columns.qty + 5, y + 7);
-        doc.text('Unit Price', columns.unit + 5, y + 7);
-        doc.text('Revenue', columns.revenue + 5, y + 7);
-        doc.text('Profit', columns.profit + 5, y + 7);
-
-        y += 25;
-    }
-
-});
-
-// Summary
-y += 20;
-
-doc
-    .fontSize(13)
-    .fillColor('black');
-
-doc.text(
-    `Total Sales: ${sales.length}`,
-    340,
-    y
-);
-
-doc.text(
-    `Total Revenue: UGX ${totalRevenue.toLocaleString()}`,
-    340,
-    y + 20
-);
-
-doc.text(
-    `Total Profit: UGX ${totalProfit.toLocaleString()}`,
-    340,
-    y + 40
-);
-
+    // Finalize PDF Generation
+    doc.end();
 };
 
 module.exports = generateSalesPDF;
