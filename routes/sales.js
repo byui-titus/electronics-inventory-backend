@@ -12,4 +12,6 @@ router.get('/dashboard', salesController.getDashboard);
 
 router.get('/', salesController.getAllSales);
 
+router.get('/report/:filter', salesController.generateSalesReport);
+
 module.exports = router;
