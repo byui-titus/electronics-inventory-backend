@@ -55,9 +55,10 @@ const generateSalesPDF = (sales, filter, res) => {
         rows: tableRows
     };
 
+
     // Global table options for appearance 
     const tableOptions = {
-        prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10).fillColor('white'),
+        prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10).fillColor('black'),
         prepareRow: (row, index) => doc.font("Helvetica").fontSize(9).fillColor('black'),
         padding: 5,
         columnSpacing: 5,
