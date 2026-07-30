@@ -29,7 +29,7 @@ const generateSalesPDF = (sales, filter, res) => {
             sale.quantitySold.toString(),
             `UGX ${sale.unitPrice.toLocaleString()}`,
             `UGX ${sale.revenue.toLocaleString()}`,
-            `UGX ${sale.profit.toLocaleString()}`
+           // `UGX ${sale.profit.toLocaleString()}`
         ];
     });
 
@@ -39,7 +39,7 @@ const generateSalesPDF = (sales, filter, res) => {
         ['Summary', '', '', '', '', ''],
         ['Total Sales:', sales.length.toString(), '', '', '', ''],
         ['Total Revenue:', `UGX ${totalRevenue.toLocaleString()}`, '', '', '', ''],
-        ['Total Profit:', `UGX ${totalProfit.toLocaleString()}`, '', '', '', '']
+       // ['Total Profit:', `UGX ${totalProfit.toLocaleString()}`, '', '', '', '']
     );
 
     // Define table structure and styling configuration
