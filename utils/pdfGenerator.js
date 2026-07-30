@@ -49,8 +49,8 @@ const generateSalesPDF = (sales, filter, res) => {
             { label: "Product", property: "product", width: 130 },
             { label: "Qty", property: "qty", width: 40 },
             { label: "Unit Price", property: "unit", width: 85 },
-            { label: "Revenue", property: "revenue", width: 85 },
-            { label: "Profit", property: "profit", width: 85 }
+            { label: "Revenue", property: "revenue", width: 85 }
+ //           { label: "Profit", property: "profit", width: 85 }
         ],
         rows: tableRows
     };
